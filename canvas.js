@@ -7,7 +7,7 @@ const context = canvas.getContext('2d');
 
 const arraySize = 25;
 let pointer = 0;
-
+let iterator = arraySize - 2;
 let rectArray =[];
 rectArray = createArray(arraySize);
 
@@ -21,15 +21,17 @@ function animate() {
 
 
     bubbleSort();
+
     [pointer, iterator] = bubbleSortIterator(pointer, iterator);
 
 
-    if (iterator == -1) { //reset array + delay call
+    if (iterator == -1) {
         drawSorted();
-        
-        rectArray = createArray(25);//reset array
 
-        source = delay; //animation delay function
+        iterator = arraySize -2;
+        rectArray = createArray(arraySize);
+
+        source = delay;
     }
 
     requestAnimationFrame(source);
@@ -40,33 +42,39 @@ function animate() {
 
 
 function drawSorted() {
-    let x = 100;
-    for (var i = 0; i < rectArray.length; i++) { //draw finished array
+    let xPos = 100;
+    for (var i = 0; i < rectArray.length; i++) {
         context.fillStyle = 'rgba(0, 255, 0, 1)';
-        context.fillRect(x, 300, 10, (rectArray[i]) * -1);
-        x = x + 12;
+        context.fillRect(xPos, 300, 10, (rectArray[i]) * -1);
+        xPos = xPos + 12;
     }
 }
 
 function drawSorting() {
-    let x = 100; //x axis window position
-    context.clearRect(0, 0, innerWidth, innerHeight);
+    let xPos = 100;
+    context.clearRect(0, 0, innerWidth, innerHeight); //clean canvas
     for (var i = 0; i < rectArray.length; i++) {
-        if (i == pointer) { 
-            context.fillStyle = 'rgba(0, 0, 255, 0.75)';
-        } else if (i <= iterator + 1) {
-            context.fillStyle = 'rgba(0, 255, 0, 0.25)';
-        } else {
-            context.fillStyle = 'rgba(0, 255, 0, 1)';
+        switch(true){
+            case (i == pointer):
+                context.fillStyle = 'rgba(0, 0, 255, 0.75)'; //blue bar
+                break;
+
+            case(i <=iterator+1):
+                context.fillStyle = 'rgba(0, 255, 0, 0.25)'; //light green bar
+                break;
+
+            default:
+                context.fillStyle = 'rgba(0, 255, 0, 1)'; //green bar
         }
-        context.fillRect(x, 300, 10, (rectArray[i]) * -1);
-        x = x + 12;
-    } //end of draw frame block
+        
+        context.fillRect(xPos, 300, 10, (rectArray[i]) * -1);
+        xPos = xPos + 12;
+    }
 
 }
 
 function bubbleSortIterator() {
-    if (pointer < iterator) { //bubblesort iteration
+    if (pointer < iterator) {
         pointer++;
         return [pointer, iterator];
     }
@@ -77,7 +85,7 @@ function bubbleSortIterator() {
 }
 
 function bubbleSort() {
-    if (rectArray[pointer] > rectArray[pointer + 1]) { //bubblesort algorithm
+    if (rectArray[pointer] > rectArray[pointer + 1]) {
         const temp = rectArray[pointer + 1];
         rectArray[pointer + 1] = rectArray[pointer];
         rectArray[pointer] = temp;
@@ -97,9 +105,6 @@ function createArray(arraySize) {
     let array = [];
     array = Array(arraySize).fill(0);
 
-    iterator = array.length - 2;
-
     return array.map(()=>parseInt(Math.random() * 100, 10));
-
 }
 
