@@ -1,6 +1,6 @@
 This is a simple project to visualize Sorting Algorithms using Canvas JS for animations. The intent of the project is mainly to learn JavaScript - and in the future some frameworks for it - in a way that is fun and engaging.
 
-It currently only supports BubbleSort and has no user interaction - yet. 
+It currently only supports BubbleSort and has no user interaction. 
 
 Here's a GIF of the animation:
 
